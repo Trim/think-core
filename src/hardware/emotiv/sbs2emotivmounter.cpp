@@ -161,7 +161,7 @@ QString Sbs2EmotivMounter::readSerialNumber()
     while (cur_dev)
     {
 
-	if (cur_dev->vendor_id == 0x1234 && cur_dev->product_id == 0xed02) //1234 ed02
+    if (cur_dev->vendor_id == 0x21a1 && cur_dev->product_id == 0x001) //1234 ed02
 	{
 	    if (cur_dev->interface_number == 1)
 	    {
@@ -222,7 +222,7 @@ void Sbs2EmotivMounter::readHardwareParameters()
     while (cur_dev)
     {
 
-	if (cur_dev->vendor_id == 0x1234 && cur_dev->product_id == 0xed02) //1234 ed02
+    if (cur_dev->vendor_id == 0x21a1 && cur_dev->product_id == 0x001) //1234 ed02
 	{
 	    if (cur_dev->interface_number == 1)
 	    {
