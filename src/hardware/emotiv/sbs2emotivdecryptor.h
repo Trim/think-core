@@ -24,6 +24,11 @@
 #include <utils/Rijndael.h>
 #include <QDebug>
 
+#define EMOKIT_MAX_STR 255
+#define EMOKIT_KEYSIZE 16 // 16 bytes == 128 bits
+#define EMOKIT_CONSUMER 0
+#define EMOKIT_RESEARCH 1
+
 class Sbs2EmotivDecryptor : public QObject
 {
     Q_OBJECT
@@ -35,11 +40,13 @@ public:
 
 private:
     char* serialNumber;
+    char* key;
     CRijndael* oRijndael;
     void initialize();
     char buffer[16];
     char buffer2[16];
     int currentPacket;
+    void emokit_get_crypto_key(int dev_type);
 
 signals:
     
