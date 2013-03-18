@@ -31,6 +31,7 @@ SOURCES += $$PWD/FFTReal.cpp \
     $$PWD/sbs2datahandler.cpp \
     $$PWD/hardware/sbs2datareader.cpp \
     $$PWD/sbs2sourcereconstruction.cpp \
+    $$PWD/sbs2sourcereconstruction_loreta.cpp \
     $$PWD/hardware/sbs2hardwaremounter.cpp \
     $$PWD/hardware/emocap/sbs2emocapmounter.cpp \
     $$PWD/hardware/emocap/sbs2emocapdatareader.cpp \
@@ -60,6 +61,7 @@ HEADERS += \
     $$PWD/sbs2datahandler.h \
     $$PWD/hardware/sbs2datareader.h \
     $$PWD/sbs2sourcereconstruction.h \
+    $$PWD/sbs2sourcereconstruction_loreta.h \
     $$PWD/jama125/jama_cholesky.h \
     $$PWD/jama125/jama_eig.h \
     $$PWD/jama125/jama_lu.h \
