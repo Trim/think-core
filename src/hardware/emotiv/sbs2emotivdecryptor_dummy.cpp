@@ -30,24 +30,11 @@ void Sbs2EmotivDecryptor::setSerialNumber(QString serialNumber_)
 }
 
 void Sbs2EmotivDecryptor::initialize() {
-    //emokit_get_crypto_key(dev_type);
-    qDebug() << "SN is : ";
-    for(int i=0;i<16;i++){
-        qDebug() << serialNumber[i];
-    }
-    emokit_get_crypto_key(EMOKIT_RESEARCH); // need to be checked directly with original emokit application
-    qDebug() << "Key is : ";
-    for(int i=0;i<16;i++){
-        qDebug() << key[i];
-    }
+    // emokit_get_crypto_key(dev_type);
+    // FIXME dev_type can be found automatically as in the original emokit application
+    emokit_get_crypto_key(EMOKIT_RESEARCH);
 
-    //libmcrypt initialization
-    /*s->td = mcrypt_module_open(MCRYPT_RIJNDAEL_128, NULL, MCRYPT_ECB, NULL);
-    s->blocksize = mcrypt_enc_get_block_size(s->td); //should return a 16bits blocksize
-
-    s->block_buffer = (unsigned char *)malloc(s->blocksize);
-
-    mcrypt_generic_init(s->td, s->key, EMOKIT_KEYSIZE, NULL);*/
+    // crypt key initialization
     oRijndael->MakeKey(reinterpret_cast<const char *>(key), CRijndael::sm_chain0, 16, 16);
 }
 
@@ -61,7 +48,9 @@ void Sbs2EmotivDecryptor::decrypt(char cipher[32], char plain[32])
     currentPacket = (currentPacket+1)%129;
 }
 
-
+/*
+    This function was found by emokit developpers
+*/
 void Sbs2EmotivDecryptor::emokit_get_crypto_key(int dev_type) {
     unsigned char type = (unsigned char) dev_type;
     unsigned int l = 16;
