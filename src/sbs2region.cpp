@@ -18,7 +18,7 @@ void Sbs2Region::loadRegionsNames()
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-	qDebug() << "ERROR: file problem" << filename;
+    qDebug() << "sbs2-Region : ERROR: file problem in loadRegionsNames" << filename;
 	return;
     }
 
@@ -44,7 +44,7 @@ void Sbs2Region::loadRegionsList()
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-	qDebug() << "ERROR: file problem" << filename;
+    qDebug() << "sbs2-Region : ERROR: file problem in loadRegionsList " << filename;
 	return;
     }
 
@@ -77,7 +77,7 @@ void Sbs2Region::loadVerticesList()
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-	qDebug() << "ERROR: file problem" << filename;
+    qDebug() << "sbs2region : ERROR: file problem while loadVerticesList " << filename;
 	return;
     }
 
