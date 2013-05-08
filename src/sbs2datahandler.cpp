@@ -12,6 +12,9 @@ Sbs2DataHandler::Sbs2DataHandler(QObject *parent) :
     sbs2Filter = 0;
     toFilterValues = 0;
     filterResultValues = 0;
+    filterOn2nd = 0;
+    filterOrder2nd = 0;
+    filterResultValues2nd = 0;
 
     //recording
     recording = 0;
@@ -88,6 +91,34 @@ void Sbs2DataHandler::filter()
     for (int row = 0; row<Sbs2Common::channelsNo(); ++row)
 	thisPacket->filteredValues[Sbs2Common::getChannelNames()->at(row)] = (*filterResultValues)[row][0];
 
+}
+
+void Sbs2DataHandler::filter2bands()
+{
+    if (!filterOn || !filterOn2nd){
+        qDebug() << "2 bands filter not ready";
+        return;
+    }
+
+    //qDebug()<<"sbs2DH : initiate filter 2bands...";
+    for (int row=0; row<Sbs2Common::channelsNo(); ++row)
+    {
+        for (int column = filterOrder; column > 0; --column){
+            (*toFilterValues)[row][column] = (*toFilterValues)[row][column-1];
+        }
+        //qDebug() << "Get channel name : " << Sbs2Common::getChannelNames()->at(row);
+        (*toFilterValues)[row][0] = thisPacket->values[Sbs2Common::getChannelNames()->at(row)];
+    }
+
+    //qDebug()<<"sbs2DH : filter 2bands...";
+    sbs2Filter->doFilter2(toFilterValues,filterResultValues, filterResultValues2nd);
+
+    //qDebug()<<"sbs2DH : save filtered values 2bands";
+    for (int row = 0; row<Sbs2Common::channelsNo(); ++row){
+        thisPacket->filteredValues[Sbs2Common::getChannelNames()->at(row)] = (*filterResultValues)[row][0];
+        thisPacket->filteredValues2ndBand[Sbs2Common::getChannelNames()->at(row)] = (*filterResultValues2nd)[row][0];
+    }
+    //qDebug()<<"sbs2DH: End of filter start 2bands";
 }
 
 void Sbs2DataHandler::spectrogramChannel()
@@ -197,6 +228,7 @@ void Sbs2DataHandler::sourceReconstructionPower()
 void Sbs2DataHandler::turnFilterOff()
 {
     filterOn = 0;
+    filterOn2nd = 0;
     if (!(toFilterValues == 0))
     {
 	delete toFilterValues;
@@ -206,6 +238,11 @@ void Sbs2DataHandler::turnFilterOff()
     {
 	delete filterResultValues;
 	filterResultValues = 0;
+    }
+    if (!(filterResultValues2nd == 0))
+    {
+        delete filterResultValues2nd;
+        filterResultValues2nd = 0;
     }
     if (!(sbs2Filter == 0))
     {
@@ -241,6 +278,51 @@ void Sbs2DataHandler::turnFilterOn(int fbandLow_, int fbandHigh_, int filterOrde
     sbs2Filter->updateFilter(filterOrder,fbandLow,fbandHigh);
 
     filterOn = 1;
+}
+
+void Sbs2DataHandler::turnFilterOn2bands(int fbandLow_, int fbandHigh_, int filterOrder_,
+                                         int fbandLow2_, int fbandHigh2_, int filterOrder2_)
+{
+    fbandLow = fbandLow_;
+    fbandHigh = fbandHigh_;
+    filterOrder = filterOrder_;
+    fbandLow2nd = fbandLow2_;
+    fbandHigh2nd = fbandHigh2_;
+    filterOrder2nd = filterOrder2_;
+
+    if (!(toFilterValues == 0))
+    {
+        delete toFilterValues;
+        toFilterValues = 0;
+    }
+    if (!(filterResultValues == 0))
+    {
+        delete filterResultValues;
+        filterResultValues = 0;
+    }
+    if (!(filterResultValues2nd == 0))
+    {
+        delete filterResultValues2nd;
+        filterResultValues2nd = 0;
+    }
+
+    qDebug() << "sbs2DH : create filter 2bands";
+    sbs2Filter = Sbs2Filter::New2(fbandLow,fbandHigh,filterOrder,
+                                  fbandLow2nd, fbandHigh2nd, filterOrder2nd, this);
+
+    qDebug() << "sbs2DH : create matrices 2bands";
+    toFilterValues = new DTU::DtuArray2D<double> (Sbs2Common::channelsNo(),filterOrder+1);
+    filterResultValues = new DTU::DtuArray2D<double> (Sbs2Common::channelsNo(),1);
+    filterResultValues2nd = new DTU::DtuArray2D<double> (Sbs2Common::channelsNo(),1);
+
+    qDebug() << "sbs2DH : reset ? 2bands";
+    reset();
+    qDebug() << "sbs2DH : update filter 2bands";
+    sbs2Filter->updateFilter2nd(filterOrder,fbandLow,fbandHigh,
+                                filterOrder2nd, fbandLow2nd, fbandHigh2nd);
+
+    filterOn = 1;
+    filterOn2nd = 1;
 }
 
 void Sbs2DataHandler::record()
@@ -584,6 +666,10 @@ void Sbs2DataHandler::reset()
     if (!(filterResultValues ==0))
     {
 	(*filterResultValues) = 0;
+    }
+    if (!(filterResultValues2nd ==0))
+    {
+        (*filterResultValues2nd) = 0;
     }
     if (!(toSpectrogramValues ==0))
     {

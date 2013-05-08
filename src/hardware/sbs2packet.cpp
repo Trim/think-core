@@ -12,6 +12,7 @@ Sbs2Packet::Sbs2Packet(QObject *parent) :
     {
         values[Sbs2Common::getChannelNames()->at(m)] = 0;
         filteredValues[Sbs2Common::getChannelNames()->at(m)] = 0;
+        filteredValues2ndBand[Sbs2Common::getChannelNames()->at(m)] = 0;
     }
 }
 

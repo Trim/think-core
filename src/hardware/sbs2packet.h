@@ -66,6 +66,7 @@ public:
     QString cqName;
     QMap<QString, double> values;
     QMap<QString, double> filteredValues;
+    QMap<QString, double> filteredValues2ndBand;
     int battery;
     char* rawData;
 

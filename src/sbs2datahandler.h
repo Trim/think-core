@@ -45,6 +45,7 @@ public:
     
     //filtering
     virtual void filter();
+    virtual void filter2bands();
 
     //recording
     virtual void record();
@@ -76,11 +77,19 @@ protected:
     int filterOrder;
     int fbandLow;
     int fbandHigh;
+
+    // 2nd band filtering
+    int filterOn2nd;
+    int filterOrder2nd;
+    int fbandLow2nd;
+    int fbandHigh2nd;
+
 	//objects
     Sbs2Filter* sbs2Filter;
 	//data matrices
     DTU::DtuArray2D<double>* toFilterValues;
     DTU::DtuArray2D<double>* filterResultValues;
+    DTU::DtuArray2D<double>* filterResultValues2nd;
 
     //recording
     int recording;
@@ -146,6 +155,10 @@ public slots:
     //filtering
     void turnFilterOn(int fbandLow_, int fbandHigh_, int filterOrder_);
     void turnFilterOff();
+
+    //filtering
+    void turnFilterOn2bands(int fbandLow_, int fbandHigh_, int filterOrder_,
+                      int fbandLow2_, int fbandHigh2_, int filterOrder2_);
 
     //recording
     void startRecording(QString user, QString description);

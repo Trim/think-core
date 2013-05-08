@@ -70,6 +70,7 @@ void Sbs2EmotivPacket::update(char *data)
 
 	values[Sbs2Common::getChannelNames()->at(m)] = level;
 	filteredValues[Sbs2Common::getChannelNames()->at(m)] = level;
+    filteredValues2ndBand[Sbs2Common::getChannelNames()->at(m)] = level;
     }
 
 }

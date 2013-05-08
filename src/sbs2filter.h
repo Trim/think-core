@@ -42,9 +42,17 @@ class Sbs2Filter : public QObject
 public:
 
     static Sbs2Filter* New(int fbandLow_, int fbandHigh_, int order_, QObject *parent = 0);
+    static Sbs2Filter* New2(int fbandLow_, int fbandHigh_, int order_,
+                            int fbandLow2_, int fbandHigh2_, int order2_, QObject *parent = 0);
     void loadFilter();
+    void loadFilter2nd();
+
     void updateFilter(int order_, int fbandLow_, int fbandHigh_);
+    void updateFilter2nd(int order_, int fbandLow_, int fbandHigh_,
+                         int order2_, int fbandLow2_, int fbandHigh2_);
+
     void doFilter(DTU::DtuArray2D<double>* values, DTU::DtuArray2D<double>* returnValues);
+    void doFilter2(DTU::DtuArray2D<double>* values, DTU::DtuArray2D<double>* returnValues, DTU::DtuArray2D<double>* returnValues2nd);
     ~Sbs2Filter();
 
 private:
@@ -54,8 +62,16 @@ private:
      int fbandLow;
      int fbandHigh;
      int order;
+
+     DTU::DtuArray2D<double>* hcoef2_2nd;
+     int fbandLow2nd;
+     int fbandHigh2nd;
+     int order2nd;
+
      static Sbs2Filter* m_pInstance;
      Sbs2Filter(int fbandLow_, int fbandHigh_, int order_, QObject *parent = 0);
+     Sbs2Filter(int fbandLow_, int fbandHigh_, int order_,
+                int fbandLow2_, int fbandHigh2_, int order2_, QObject *parent = 0);
 
 signals:
     

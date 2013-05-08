@@ -71,6 +71,7 @@ void Sbs2Emocap28Packet::update(char *data)
 
         values[Sbs2Common::getChannelNames()->at(m)] = level;
         filteredValues[Sbs2Common::getChannelNames()->at(m)] = level;
+        filteredValues2ndBand[Sbs2Common::getChannelNames()->at(m)] = level;
     }
 
 }
@@ -120,6 +121,7 @@ void Sbs2Emocap28Packet::update(char *data1, char *data2)
 
         values[Sbs2Common::getChannelNames()->at(m)] = level;
         filteredValues[Sbs2Common::getChannelNames()->at(m)] = level;
+        filteredValues2ndBand[Sbs2Common::getChannelNames()->at(m)] = level;
     }
 
     for (int m=14; m<28; ++m)
@@ -138,6 +140,7 @@ void Sbs2Emocap28Packet::update(char *data1, char *data2)
         }
         values[Sbs2Common::getChannelNames()->at(m)] = level;
         filteredValues[Sbs2Common::getChannelNames()->at(m)] = level;
+        filteredValues2ndBand[Sbs2Common::getChannelNames()->at(m)] = level;
     }
 
     //qDebug() << counter1 << counter2 << values["O2"] << values["O2_2"];
