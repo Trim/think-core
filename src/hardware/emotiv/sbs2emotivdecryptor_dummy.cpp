@@ -44,7 +44,14 @@ void Sbs2EmotivDecryptor::decrypt(char cipher[32], char plain[32])
     As found in emokit, the key to decrypt datas is made from the serial number.
     And then we'll use the Rijndael tool to decrypt datas using this key.
 */
+
     oRijndael->Decrypt(cipher, plain, 32, CRijndael::ECB);
+
+    /*plain[0] = currentPacket;
+    for(int i=1;i<32;++i){
+        plain[i] = qrand()%RAND_MAX*10;
+    }*/
+
     currentPacket = (currentPacket+1)%129;
 }
 
