@@ -306,18 +306,14 @@ void Sbs2DataHandler::turnFilterOn2bands(int fbandLow_, int fbandHigh_, int filt
         filterResultValues2nd = 0;
     }
 
-    qDebug() << "sbs2DH : create filter 2bands";
     sbs2Filter = Sbs2Filter::New2(fbandLow,fbandHigh,filterOrder,
                                   fbandLow2nd, fbandHigh2nd, filterOrder2nd, this);
 
-    qDebug() << "sbs2DH : create matrices 2bands";
     toFilterValues = new DTU::DtuArray2D<double> (Sbs2Common::channelsNo(),filterOrder+1);
     filterResultValues = new DTU::DtuArray2D<double> (Sbs2Common::channelsNo(),1);
     filterResultValues2nd = new DTU::DtuArray2D<double> (Sbs2Common::channelsNo(),1);
 
-    qDebug() << "sbs2DH : reset ? 2bands";
     reset();
-    qDebug() << "sbs2DH : update filter 2bands";
     sbs2Filter->updateFilter2nd(filterOrder,fbandLow,fbandHigh,
                                 filterOrder2nd, fbandLow2nd, fbandHigh2nd);
 
